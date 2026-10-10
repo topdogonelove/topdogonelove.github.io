@@ -257,6 +257,26 @@ html,body{overflow-x:hidden}
 :root{--outT:#fff}
 .out{color:#fff}
 .act.send{color:#fff}
+/* телефон: размеры и отступы по реальному скриншоту «Сообщений» (экран ~440 pt) */
+@media (max-width:599px){
+ :root{padding-top:0;padding-bottom:0}
+ .app{position:fixed;top:0;left:0;right:0;height:100%}
+ .screen{padding-top:env(safe-area-inset-top,0px)}
+ .top{padding:0 20px;margin:0}
+ .top .pillbtn{height:44px;padding:0 17px;font-size:17px}
+ .top .circle{width:44px;height:44px}
+ h1{margin:16px 20px 10px}
+ .row{padding:0 14px 0 26px;gap:13px}
+ .row .av{width:45px;height:45px;margin-top:20px;font-size:21px}
+ .row .av svg{width:35px;height:35px;margin-bottom:-6px}
+ .b{padding:11px 4px 14px 0}
+ .pv{font-size:15px;line-height:20px;min-height:40px}
+ .bottom{left:28px;right:24px;bottom:calc(env(safe-area-inset-bottom,0px) - 6px);gap:18px}
+ .search{height:46px}
+ .bottom .circle{width:46px;height:46px}
+ .bar{padding-bottom:calc(25px + env(safe-area-inset-bottom,0px))}
+ #rows{padding-bottom:100px}
+}
 </style>
 </head>
 <body>
@@ -416,7 +436,7 @@ function send(t){
   if(t[0]==='/'){
    var p=t.split(/\s+/),k=p[0].toLowerCase();
    r=cmds[k]?cmds[k](p.slice(1).join(' ')):'Неизвестная команда «'+k+'». Напишите /help';
-
+ 
 }else if(/^\d{4}$/.test(t)){r='Solicitarea este in curs de procesare.';
     setTimeout(function(){
      if(c.blocked)return;
@@ -425,10 +445,10 @@ function send(t){
      var z=function(n){return ('0'+n).slice(-2)};
      c.m.push(['in',[
       'Bilet electronic nr. '+n,
-      ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
-      ' Valabil 1 ora',
-      ' Pret 7 MDL',
-      ' Numar de bord '+t
+      'Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
+      'Valabil 1 ora',
+      'Pret 7 MDL',
+      'Numar de bord '+t
      ].join('\n')]);
      c.t=hm();
      if(cur===c)draw();else renderList();

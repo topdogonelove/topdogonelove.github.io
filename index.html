@@ -468,10 +468,10 @@ function send(t){
      var z=function(n){return ('0'+n).slice(-2)};
      c.m.push(['in',[
       'Bilet electronic nr. '+n,
-      'Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
-      'Valabil 1 ora',
-      'Pret 7 MDL',
-      'Numar de bord '+t
+      ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
+      ' Valabil 1 ora',
+      ' Pret 7 MDL',
+      ' Numar de bord '+t
      ].join('\n')]);
      c.t=hm();
      if(cur===c)draw();else renderList();

@@ -402,13 +402,17 @@ var contacts=[
 ];
 contacts.forEach(function(c){c.t=hm()});
 var cur=null,userName='Вы';
+var KEY='sms_state_v1';
+function save(){try{localStorage.setItem(KEY,JSON.stringify({u:userName,c:contacts.map(function(c){var o={};for(var k in c)if(k!=='sel')o[k]=c[k];return o})}))}catch(e){}}
+try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.c&&sv.c.length){contacts=sv.c;contacts.forEach(function(c){c.m=c.m||[];c.t=c.t||hm()});if(sv.u)userName=sv.u}}catch(e){}
+function dl(c){var d=c.d?new Date(c.d):new Date(),n=new Date(),t=d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});return d.toDateString()===n.toDateString()?'<b>Сегодня</b> '+t:'<b>'+d.toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'})+'</b> '+t}
 var cmds={
  '/help':function(){return 'Команды:\n/time — время\n/date — дата\n/roll — кубик\n/name Имя — сменить имя\n/clear — очистить чат'},
  '/time':function(){return new Date().toLocaleTimeString('ru-RU')},
  '/date':function(){return new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'})},
  '/roll':function(){return 'Выпало: '+(1+Math.floor(Math.random()*6))},
- '/name':function(a){if(!a)return 'Напишите: /name Иван';userName=a;return 'Теперь вы — '+a},
- '/clear':function(){cur.m=[];draw();return null}
+ '/name':function(a){if(!a)return 'Напишите: /name Иван';userName=a;save();return 'Теперь вы — '+a},
+ '/clear':function(){cur.m=[];cur.d=0;draw();return null}
 };
 function esc(s){return s.replace(/[&<>]/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[x]})}
 function link(s){return esc(s).replace(/(https?:\/\/[^\s]+|www\.[^\s]+)/g,'<a href="#" onclick="return false">$1</a>')}
@@ -423,7 +427,7 @@ function renderList(){
  });
  if(pins)h='<div class="pins">'+pins+'</div>'+h;
  if(!h&&q)h='<div style="text-align:center;color:var(--mute);padding:40px 16px">Ничего не найдено</div>';
- $('rows').innerHTML=h;
+ $('rows').innerHTML=h;save();
 }
 var selMode=false,pinMode=false;
 function updSel(){var n=contacts.filter(function(c){return c.sel}).length;$('seldel').disabled=!n;$('seldel').textContent='Удалить'+(n?' ('+n+')':'')}
@@ -442,15 +446,15 @@ $('msel').onclick=function(){closeMenu();setMode('sel')};
 $('mpin').onclick=function(){closeMenu();setMode('pin')};
 $('seldel').onclick=function(){contacts=contacts.filter(function(c){return !c.sel});setMode(null)};
 function draw(){
- var m=cur.m,h=m.length?'<div class="day">Текстовое сообщение • SMS<br><b>Сегодня</b> '+hm()+'</div>':'';
+ var m=cur.m,h=m.length?'<div class="day">Текстовое сообщение • SMS<br>'+dl(cur)+'</div>':'';
  m.forEach(function(x,i){
   var t=(i===m.length-1||m[i+1][0]!==x[0])?' tail':'';
   h+='<div class="m '+x[0]+t+'">'+link(x[1])+'</div>';
  });
- $('log').innerHTML=h;$('log').scrollTop=1e9;
+ $('log').innerHTML=h;$('log').scrollTop=1e9;save();
 }
 function openChat(i){cur=contacts[i];$('cname').innerHTML=esc(nm(cur))+I('chev',13);$('cav').innerHTML=avh(cur);draw();$('app').classList.add('open')}
-function push(w,t){cur.m.push([w,t]);cur.t=hm();draw()}
+function push(w,t){if(!cur.d)cur.d=Date.now();cur.m.push([w,t]);cur.t=hm();draw()}
 function send(t){
  t=t.trim();if(!t)return;
  var c=cur;push('out',t);
@@ -468,10 +472,10 @@ function send(t){
      var z=function(n){return ('0'+n).slice(-2)};
      c.m.push(['in',[
       'Bilet electronic nr. '+n,
-      ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
-      ' Valabil 1 ora',
-      ' Pret 7 MDL',
-      ' Numar de bord '+t
+      'Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
+      'Valabil 1 ora',
+      'Pret 7 MDL',
+      'Numar de bord '+t
      ].join('\n')]);
      c.t=hm();
      if(cur===c)draw();else renderList();
@@ -527,7 +531,7 @@ function refreshInfo(){
  $('sw').classList.toggle('on',!!cur.mute);
  $('blk').textContent=cur.blocked?'Разблокировать контакт':'Заблокировать контакт';
  $('blk').className='it '+(cur.blocked?'blue':'red');
- var l=cur.lbl||'Рабочий';$('lb1').textContent=l[0];$('lb2').textContent=l;
+ var l=cur.lbl||'Рабочий';$('lb1').textContent=l[0];$('lb2').textContent=l;save();
  $('cname').innerHTML=esc(nm(cur))+I('chev',13);
 }
 function closeSheet(){$('sheet').classList.remove('show');$('shade').classList.remove('show')}
@@ -589,6 +593,7 @@ function hidePop(){$('pop').classList.remove('show');$('pshade').classList.remov
 $('pshade').onclick=hidePop;
 $('pop').onclick=function(){hidePop();openNew()};
 $('shc1').onclick=function(){sheet('Контакт «'+nm(cur)+'» сохранён.',[['OK']],'',function(){})};
+window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
 upd();renderList();
 </script>
 </body>

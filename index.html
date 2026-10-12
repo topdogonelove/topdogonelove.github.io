@@ -398,9 +398,6 @@ html,body{overflow-x:hidden}
  <div class="shade" id="shade"></div><div class="sheet" id="sheet"></div>
 </div>
 <script>
-window.onerror=function(m,u,l,c){if(!l)return;var d=document.createElement('div');d.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#c00;color:#fff;font:12px/1.3 monospace;padding:8px;white-space:pre-wrap';d.textContent='ERR: '+m+' @'+l+':'+c;document.body.appendChild(d)};
-</script>
-<script>
 var $=function(i){return document.getElementById(i)};
 var person='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><ellipse cx="12" cy="21" rx="9" ry="6"/></svg>';
 var P={
@@ -505,29 +502,26 @@ function send(t){
   if(t[0]==='/'){
    var p=t.split(/\s+/),k=p[0].toLowerCase();
    r=cmds[k]?cmds[k](p.slice(1).join(' ')):'Неизвестная команда «'+k+'». Напишите /help';
-  
-}else if(/^\d{4}$/.test(t)){
-  r='Solicitarea este in curs de procesare.';
-  setTimeout(function(){
+  }else if(/^\d{4}$/.test(t)){
+   r='Solicitarea este in curs de procesare.';
+   setTimeout(function(){
     if(c.blocked)return;
     var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
     var d=new Date();
     var z=function(v){return ('0'+v).slice(-2)};
     var demo=[
      'DEMO — BILET NEVALID',
-      'Bilet demonstrativ nr. DEMO-'+n,
-      'Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear(),
-      'Valabilitate demonstrativa',
-      'Numar de bord '+t
+     'Bilet demonstrativ nr. DEMO-'+n,
+     'Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear(),
+     'Valabilitate demonstrativa',
+     'Numar de bord '+t
     ].join('\n');
     if(!c.d)c.d=Date.now();
     c.m.push(['in',demo]);
     c.t=hm();
     if(cur===c)draw();else renderList();
-  },1800);
-}
-
-  else r=userName+', я понимаю только команды с «/». Напишите /help';
+   },1800);
+  }else r=userName+', я понимаю только команды с «/». Напишите /help';
   if(r!==null&&cur===c&&!c.blocked)push('in',r);
  },450);
 }

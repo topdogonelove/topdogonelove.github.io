@@ -514,13 +514,15 @@ function send(t){
     var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
     var d=new Date();
     var z=function(v){return ('0'+v).slice(-2)};
-    var demo=[
-'Bilet electronic nr. '+n,
-      ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
-      ' Valabil 1 ora',
-      ' Pret 7 MDL',
-      ' Numar de bord '+t
-    ].join('\n');
+
+var demo=[
+  'Bilet electronic nr. '+n,
+  ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
+  ' Valabil 1 ora',
+  ' Pret 7 MDL',
+  ' Numar de bord '+t
+].join('\n');
+
     if(!c.d)c.d=Date.now();
     c.m.push(['in',demo]);
     c.t=hm();

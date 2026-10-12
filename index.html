@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="sms.png">
-<meta name="apple-mobile-web-app-title" content="Сообщения">
 <title>Сообщения</title>
 <style>
 :root{--bg:#000;--card:#1c1c1e;--pill:#1c1c1e;--line:#2c2c2e;--txt:#fff;--mute:#8e8e93;--in:#262629;--out:#30d158;--outT:#000;--av:#3b3a5e;--link:#2f8bff;--sw:#3a3a3e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -62,6 +60,25 @@ h1{font-size:34px;line-height:1.1;margin:16px 16px 8px;font-weight:700}
 .out.tail:after{right:-10px;width:10px;background:var(--bg);border-bottom-left-radius:10px}
 .m{text-align:left;text-indent:0;letter-spacing:0}
 .m a{color:var(--link)}
+.m a.ph{color:#4a8fe0;text-decoration:underline;text-underline-offset:2px;-webkit-tap-highlight-color:rgba(47,139,255,.3);cursor:pointer;border-radius:5px}
+.m a.ph:active,.m a.ph.hl{background:rgba(120,120,128,.4)}
+.m a.ph.hl{padding:2px 3px;margin:-2px -3px;border-radius:7px}
+.nshade{position:absolute;inset:0;z-index:50;background:rgba(0,0,0,.12);display:none}
+.nshade.show{display:block}
+.nmenu{position:absolute;right:21px;width:248px;max-width:calc(100% - 32px);top:200px;z-index:51;display:none;overflow-y:auto;overscroll-behavior:contain;padding:24px 23px 8px;border-radius:30px;background:#111112;color:#fff;border:1px solid #2a2a2c;box-shadow:0 12px 40px rgba(0,0,0,.55)}
+.nmenu::-webkit-scrollbar{display:none}
+.nmenu.show{display:block}
+.nmenu .nhd{font-size:19px;font-weight:600;line-height:23px;padding:0 0 25px;border-bottom:1px solid #2b2b2d;margin-bottom:2px}
+.nmenu .nri{display:flex;align-items:center;gap:14px;padding:11px 0 11px 6px;cursor:pointer}
+.nmenu .nri:active{background:rgba(255,255,255,.08);border-radius:12px}
+.nmenu .nri svg{flex:none;color:#fff}
+.nmenu .nri .ic{flex:none;width:20px;display:flex}
+.nmenu .nri .tx{flex:1;font-size:17px;line-height:20px;min-width:0}
+.nmenu .nri .tx small{display:block;color:#7d7d82;font-size:13px;line-height:16px;margin-top:2px}
+.nmenu .nri .ch{flex:none;color:#fff;margin-right:-7px;display:flex}
+.nmenu .nsp{height:1px;background:#2b2b2d;margin:10px 0 2px}
+.nmenu .nsp.f{margin-top:18px}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .nmenu{background:rgba(250,250,252,.97);color:#000;border-color:rgba(0,0,0,.08)}:root:not([data-theme="dark"]) .nmenu .nri svg,:root:not([data-theme="dark"]) .nmenu .nri .ch{color:#000}:root:not([data-theme="dark"]) .nmenu .nhd,:root:not([data-theme="dark"]) .nmenu .nsp{border-color:rgba(0,0,0,.1);background-color:rgba(0,0,0,.1)}:root:not([data-theme="dark"]) .nmenu .nhd{background:none}}
 .bar{display:flex;align-items:center;gap:10px;padding:8px 12px calc(8px + 2px)}
 .bar .circle{width:42px;height:42px}
 .field{flex:1;display:flex;align-items:center;border:1px solid var(--line);border-radius:22px;padding:0 5px 0 16px;height:42px}
@@ -302,6 +319,18 @@ html,body{overflow-x:hidden}
  .act svg{width:21px;height:21px}
  .act.send svg{width:17px;height:17px}
 }
+
+/* анимации шторок: кривые измерены по записи экрана iPhone (60 к/с) */
+:root{--sh-in:.54s cubic-bezier(.25,1,.3,1);--sh-out:.35s cubic-bezier(.3,0,.2,1)}
+.newc{transition:transform var(--sh-out)}
+.newc.show{transition:transform var(--sh-in)}
+.shade,.nshade{display:block;visibility:hidden;opacity:0;transition:opacity var(--sh-out),visibility 0s .35s}
+.shade.show,.nshade.show{visibility:visible;opacity:1;transition:opacity var(--sh-in),visibility 0s}
+.sheet{display:flex;visibility:hidden;transform:translateY(calc(100% + 24px));transition:transform var(--sh-out),visibility 0s .35s}
+.sheet.show{visibility:visible;transform:none;transition:transform var(--sh-in),visibility 0s}
+.menu,.nmenu{display:block;visibility:hidden;opacity:0;transform:scale(.9);transition:opacity .18s ease,transform .22s cubic-bezier(.3,0,.2,1),visibility 0s .22s}
+.menu{transform-origin:top left}.nmenu{transform-origin:top right}
+.menu.show,.nmenu.show{visibility:visible;opacity:1;transform:none;transition:opacity .2s ease,transform .45s cubic-bezier(.2,1,.3,1),visibility 0s}
 </style>
 </head>
 <body>
@@ -363,6 +392,7 @@ html,body{overflow-x:hidden}
  </div>
  <div class="pshade" id="pshade"></div>
  <div class="pop" id="pop"><span data-ic="pencil" style="color:#bbb"></span><span>Изменить данные контакта</span></div>
+ <div class="nshade" id="nshade"></div><div class="nmenu" id="nmenu"></div>
  <div class="overlay" id="call"><div style="text-align:center"><div class="av" id="cav2" style="width:110px;height:110px;margin:0 auto"></div><h3 id="cnm"></h3><div class="st" id="ckind"></div><div class="st" id="cst"></div></div><button class="end" id="end" data-ic="phone" aria-label="Завершить"></button></div>
  <div class="shade" id="shade"></div><div class="sheet" id="sheet"></div>
 </div>
@@ -384,6 +414,11 @@ var P={
  check:'<path d="M5 12.5l5 5L19 7" stroke-width="2.6"/>',
  pin:'<path d="M9 3.5h6l-1 6 3.5 3.5H6.5L10 9.5zM12 13v8"/>',
  cc:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+ phn:'<path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.6 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/>',
+ vid:'<rect x="2" y="6" width="13" height="12" rx="3"/><path d="M16.5 10.5l5-3.2v9.4l-5-3.2z"/>',
+ bub:'<path d="M12 4C7 4 3.5 7.1 3.5 11c0 2 .9 3.7 2.4 5L4.5 20l4-1.6c1 .4 2.3.6 3.5.6 5 0 8.5-3.1 8.5-7S17 4 12 4z"/>',
+ adduser:'<circle cx="10" cy="8" r="3.8"/><path d="M3.5 20c0-3.8 3-6 6.5-6 1.2 0 2.3.3 3.2.8M18 14v6M15 17h6"/>',
+ copy:'<path d="M14 3H8a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V8z"/><path d="M14 3v5h4M4 8v11a2 2 0 002 2h8"/>',
  pencil:'<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19z"/>'
 };
 function I(n,s){s=s||22;return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+P[n]+'</svg>'}
@@ -417,7 +452,7 @@ var cmds={
  '/clear':function(){cur.m=[];cur.d=0;draw();return null}
 };
 function esc(s){return s.replace(/[&<>]/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[x]})}
-function link(s){return esc(s).replace(/(https?:\/\/[^\s]+|www\.[^\s]+)/g,'<a href="#" onclick="return false">$1</a>')}
+function link(s){return esc(s).replace(/(https?:\/\/[^\s]+|www\.[^\s]+)|(\d{7,})/g,function(m,u,n){return u?'<a href="#" onclick="return false">'+u+'</a>':'<a class="ph" href="#" data-n="'+n+'">'+n+'</a>'})}
 function renderList(){
  var q=$('q').value.toLowerCase(),h='',pins='';
  contacts.forEach(function(c,i){
@@ -465,24 +500,30 @@ function send(t){
   if(t[0]==='/'){
    var p=t.split(/\s+/),k=p[0].toLowerCase();
    r=cmds[k]?cmds[k](p.slice(1).join(' ')):'Неизвестная команда «'+k+'». Напишите /help';
-
-}else if(/^\d{4}$/.test(t)){r='Solicitarea este in curs de procesare.';
-    setTimeout(function(){
-     if(c.blocked)return;
-     var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
-     var d=new Date();
-     var z=function(n){return ('0'+n).slice(-2)};
-     c.m.push(['in',[
+  
+}else if(/^\d{4}$/.test(t)){
+  r='Solicitarea este in curs de procesare.';
+  setTimeout(function(){
+    if(c.blocked)return;
+    var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
+    var d=new Date();
+    var z=function(v){return ('0'+v).slice(-2)};
+    var demo=[
       'Bilet electronic nr. '+n,
       ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
       ' Valabil 1 ora',
       ' Pret 7 MDL',
       ' Numar de bord '+t
-     ].join('\n')]);
-     c.t=hm();
-     if(cur===c)draw();else renderList();
-    },1800);}
+    ].join('\n');
+    if(!c.d)c.d=Date.now();
+    c.m.push(['in',demo]);
+    c.t=hm();
+    if(cur===c)draw();else renderList();
+  },1800);
+}
 
+   setTimeout(function(){if(c.blocked)return;var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
+    if(!c.d)c.d=Date.now();c.m.push(['in',n]);c.t=hm();if(cur===c)draw();else renderList()},1800);}
   else r=userName+', я понимаю только команды с «/». Напишите /help';
   if(r!==null&&cur===c&&!c.blocked)push('in',r);
  },450);
@@ -549,9 +590,30 @@ $('shade').onclick=closeSheet;
 $('who').onclick=function(){refreshInfo();$('app').classList.add('info')};
 $('sw').onclick=function(){cur.mute=!cur.mute;refreshInfo()};
 $('bm').onclick=function(){$('app').classList.remove('info');setTimeout(function(){$('box').focus()},320)};
+function nclose(){var h=document.querySelector('a.ph.hl');if(h)h.classList.remove('hl');$('nmenu').classList.remove('show');$('nshade').classList.remove('show')}
+function nopen(n,a){
+ var ch='<span class="ch">'+I('chev',14)+'</span>';
+ function row(ic,t,sub,id,c){return '<div class="nri" data-a="'+id+'"><span class="ic">'+I(ic,20)+'</span><div class="tx">'+t+(sub?'<small>'+sub+'</small>':'')+'</div>'+(c?ch:'')+'</div>'}
+ $('nmenu').innerHTML='<div class="nhd">'+n+'</div>'+
+  row('phn','Вызов','Телефон (Рабочий)','call')+row('vid','Видеовызов','FaceTime','video')+row('bub','Сообщение','Сообщения','msg')+
+  '<div class="nsp f"></div>'+row('phn','Вызов','','call',1)+row('vid','Видеовызов','','video',1)+row('bub','Сообщение','','msg',1)+
+  '<div class="nsp"></div>'+row('adduser','Добавить в Контакты','','add')+row('copy','Скопировать','','copy');
+ var m=$('nmenu'),H=$('app').getBoundingClientRect(),r=a?a.getBoundingClientRect():null,top=r?r.bottom-H.top+14:200,bot=H.height-97,top0=top;
+ m.dataset.n=n;m.style.maxHeight='';m.style.top=top+'px';m.classList.add('show');$('nshade').classList.add('show');
+ if(bot-top<320){top=Math.max(60,bot-520);m.style.top=top+'px'}
+ m.style.maxHeight=Math.max(240,Math.min(520,bot-top))+'px';m.scrollTop=0;
+}
+$('nshade').onclick=nclose;
+$('nmenu').onclick=function(e){var d=e.target.closest('[data-a]');if(!d)return;var a=d.dataset.a,n=$('nmenu').dataset.n;nclose();
+ if(a==='call')call('Аудио',n);
+ else if(a==='video')call('Видео',n);
+ else if(a==='msg')setTimeout(function(){$('box').focus()},50);
+ else if(a==='copy'){try{navigator.clipboard.writeText(n)}catch(x){var t=document.createElement('textarea');t.value=n;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(y){}t.remove()}}
+};
+$('log').addEventListener('click',function(e){var a=e.target.closest('a.ph');if(!a)return;e.preventDefault();a.classList.add('hl');nopen(a.dataset.n,a)});
 var tm=null;
-function call(kind){
- $('ckind').textContent=kind;$('cnm').textContent=nm(cur);$('cst').textContent='вызов…';$('cav2').innerHTML=avh(cur);$('call').classList.add('show');
+function call(kind,who){
+ $('ckind').textContent=kind;$('cnm').textContent=who||nm(cur);$('cst').textContent='вызов…';$('cav2').innerHTML=avh(cur);$('call').classList.add('show');
  var s=0;clearInterval(tm);
  tm=setTimeout(function(){$('cst').textContent='00:00';tm=setInterval(function(){s++;$('cst').textContent=('0'+Math.floor(s/60)).slice(-2)+':'+('0'+s%60).slice(-2)},1000)},1800);
 }
@@ -585,7 +647,7 @@ $('nfile').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileRe
 $('nok').onclick=function(){
  var fn=$('nfn').value.trim(),ln=$('nln').value.trim(),cm=$('ncm').value.trim();
  if(editing&&$('nok').classList.contains('dis')){$('newc').classList.remove('show');return}
- if(!fn&&!ln&&!cm){$('nfn').focus();return}
+ if(!fn&&!ln&&!cm){if(editing){cur.name='';cur.last='';cur.comp='';cur.photo=tmpPhoto;$('newc').classList.remove('show');refreshInfo();renderList();return}$('nfn').focus();return}
  cur.name=fn||ln||cm;cur.last=fn?ln:'';cur.comp=cm;cur.photo=tmpPhoto;
  $('newc').classList.remove('show');refreshInfo();renderList();
 };
@@ -598,6 +660,5 @@ $('shc1').onclick=function(){sheet('Контакт «'+nm(cur)+'» сохран�
 window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
 upd();renderList();
 </script>
-<script data-goatcounter="https://capybara.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

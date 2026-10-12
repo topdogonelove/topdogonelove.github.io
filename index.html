@@ -509,7 +509,7 @@ function send(t){
     var d=new Date();
     var z=function(v){return ('0'+v).slice(-2)};
     var demo=[
-      'Bilet electronic nr. '+n,
+    'Bilet electronic nr. '+n,
       ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
       ' Valabil 1 ora',
       ' Pret 7 MDL',
@@ -521,9 +521,6 @@ function send(t){
     if(cur===c)draw();else renderList();
   },1800);
 }
-
-   setTimeout(function(){if(c.blocked)return;var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
-    if(!c.d)c.d=Date.now();c.m.push(['in',n]);c.t=hm();if(cur===c)draw();else renderList()},1800);}
   else r=userName+', я понимаю только команды с «/». Напишите /help';
   if(r!==null&&cur===c&&!c.blocked)push('in',r);
  },450);

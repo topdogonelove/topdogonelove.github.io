@@ -424,25 +424,28 @@ html,body{overflow-x:hidden}
 .k.sp{position:relative}
 .k.sp u{position:absolute;right:13px;bottom:5px;font:400 12px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,sans-serif;color:#8e8e93;text-decoration:none;pointer-events:none}
 
-.kr.nm{padding:0 1.53%;gap:1.7%}
-.kr.r3.nm{padding:0 1.53%}
-.kr.r3.nm .k.f{width:11.4%}
-.kr.r3.nm .mid{gap:1.7%;margin:0 3.1%}
-.k.t{font-size:20px}
+.kr.nm{padding:0 1.53%;gap:1.23%}
+.kr.r3.nm{padding:0 1.53%;gap:0}
+.kr.r3.nm .k.f{width:11.8%}
+.kr.r3.nm .mid{gap:1.4%;margin:0 3.2%}
+.kr.n10:not(.nm){gap:1.23%}
+.k.w1{width:11.4%}.k.w2{width:24%}
+.k.t{font-size:18px}
+.kr.nm .k.ch{font-size:22px}
 .k.t2{font-size:15px}
 
 /* окончательная подгонка клавиатуры по пикселям скрина */
 .kbd{border-radius:22px 22px 40px 40px}
+.k{border-radius:8.5px}
 .k svg{width:28px;height:28px}
-.k[data-a=bs] svg{width:30px;height:30px}
-.k[data-a=em] svg{width:22px;height:22px}
-.k[data-a=ret] svg{width:33px;height:33px}
+.k[data-a=bs] svg{width:27px;height:27px}
+.k[data-a=em] svg{width:19px;height:19px}
+.k[data-a=ret] svg{width:28px;height:28px}
 .k.sh svg{width:27px;height:27px}
 .gl,.mc{opacity:1}
 .gl{width:34px;height:34px;left:25px;top:259px}
 .mc{width:36px;height:36px;left:379px;top:258px}
 .k svg{width:28px;height:28px}
-
 /* меню по долгому нажатию */
 .row,.pin{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .row{position:relative}.pin{position:relative}
@@ -584,7 +587,7 @@ html,body{overflow-x:hidden}
 </div>
 <script>
 var $=function(i){return document.getElementById(i)};
-var KB={v:'',sh:1,lang:'en',layer:'abc'};
+var KB={v:'',sh:1,lang:'ru',layer:'abc'};
 (function(){var b=$('box');b.innerHTML='<span id="bt"></span><i class="cr"></i>';var t=$('bt');
  function r(){t.textContent=KB.v;b.classList.toggle('e',!KB.v);b.scrollLeft=1e5}
  Object.defineProperty(b,'value',{get:function(){return KB.v},set:function(v){KB.v=v;if(!v)KB.sh=1;r();if(window.kbRender)window.kbRender()}});

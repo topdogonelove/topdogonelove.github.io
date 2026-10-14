@@ -143,9 +143,7 @@ h1{font-size:34px;line-height:1.1;margin:16px 16px 8px;font-weight:700}
 .row1 span:last-child{color:var(--mute)}
 .ni{display:block;width:100%;background:none;border:0;border-bottom:1px solid #3d3d40;outline:0;color:var(--txt);font-size:17px;padding:16px 0}
 .ni:last-child{border-bottom:0}
-
 .it.ph,.it.ad{display:flex;align-items:center;gap:14px}
-
 .mn,.pl{width:26px;height:26px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
 .mn{background:#ff453a}.pl{background:#30d158}
 .hd{position:relative;z-index:3}
@@ -265,7 +263,7 @@ html,body{overflow-x:hidden}
 #chat .hd .circle{border:1px solid rgba(255,255,255,.14);background:rgba(60,60,64,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .who span,:root:not([data-theme="dark"]) #chat .hd .circle{background:rgba(235,235,240,.7);border-color:rgba(0,0,0,.08)}}
 /* цвета чата, снятые с вашего скриншота */
-:root{--dayc:#bababa;--phc:#777779;--micc:#757575;--fld:#171717;--cir:#1e1e1e;--bdr:#2d2d2d;--bk:rgba(47,47,47,.88);--bkb:#3a3a3c;--bub:#33cc5a;--inb:#262628}
+:root{--dayc:#bababa;--phc:#717171;--micc:#757575;--fld:#191919;--cir:#191919;--bdr:#3b3b3b;--bk:rgba(47,47,47,.88);--bkb:#3a3a3c;--bub:#33cc5a;--inb:#262628}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--dayc:#7c7c82;--phc:#8a8a90;--micc:#8a8a90;--fld:#efeff4;--cir:#efeff4;--bdr:rgba(128,128,134,.38);--bk:rgba(235,235,240,.7);--bkb:rgba(0,0,0,.08);--inb:#e9e9eb}}
 .out{background:var(--bub)}
 .out.tail:before{background:var(--bub)}
@@ -312,15 +310,13 @@ html,body{overflow-x:hidden}
  #chat .who .av svg{width:46px;height:46px;margin-bottom:-7px}
  #chat .who span{position:relative;margin-top:-3.5px;height:31px;padding:0 9px 0 16px;font-size:17.4px;border-radius:16px}
  #log{padding:0 20px 8px}
- 
-.m{font-size:16.25px;line-height:20.2px;padding:9px 15px;border-radius:20px;max-width:90%;margin-top:3px}
-
+ .m{font-size:16.25px;line-height:20.2px;padding:9px 15px;border-radius:20px;max-width:76%;margin-top:3px}
  .m.tail{margin-bottom:7px}
  .day{font-size:12.9px;line-height:14.2px;margin:10px 0 3px}
  #log .day:first-child{margin-top:23px}
- .bar{gap:13px;padding:0 28px 28px}
+ .bar{gap:12.4px;padding:0 28px 28px}
  .bar .circle{width:40px;height:40px}
- .bar .circle svg{width:24px;height:24px}
+ .bar .circle svg{width:21.6px;height:21.6px}
  .field{height:40px;border-radius:20px;padding:0 6px 0 17px}
  .field input{font-size:16.5px}
  .act{width:30px;height:30px}
@@ -339,8 +335,49 @@ html,body{overflow-x:hidden}
 .menu,.nmenu{display:block;visibility:hidden;opacity:0;transform:scale(.9);transition:opacity .18s ease,transform .22s cubic-bezier(.3,0,.2,1),visibility 0s .22s}
 .menu{transform-origin:top left}.nmenu{transform-origin:top right}
 .menu.show,.nmenu.show{visibility:visible;opacity:1;transform:none;transition:opacity .2s ease,transform .45s cubic-bezier(.2,1,.3,1),visibility 0s}
-.app.kb .bar{padding-bottom:8px}
+.bd{display:inline-block;width:11px;height:11px;line-height:11px;font-size:8.2px;font-weight:600;border-radius:2.6px;background:#8d8c8e;color:#000;text-align:center;vertical-align:0;margin-right:4px;padding:0}
+.bd.o{width:12px;height:10.4px;line-height:10.4px}
+.pv{white-space:pre-line}
+.day.sy{margin-top:0}
 .app.kb .screen{transition-property:transform}
+/* острова: заголовок и шапка чата плавают над прокручиваемым содержимым */
+:root{--st:env(safe-area-inset-top,0px);--bgrgb:0,0,0}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bgrgb:255,255,255}}
+:root[data-theme="light"]{--bgrgb:255,255,255}
+@media (min-width:600px){:root{--st:45px}}
+#list{padding-top:0}
+#list .top{position:absolute;top:0;left:0;right:0;z-index:5;pointer-events:none;padding:var(--st) 20px 0;height:calc(var(--st) + 52px);margin:0}
+#list .top>*{pointer-events:auto}
+#list .top::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(100% + 22px);z-index:-1;background:linear-gradient(to bottom,rgba(var(--bgrgb),.95) 0,rgba(var(--bgrgb),.72) 62%,rgba(var(--bgrgb),0));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent);opacity:0;transition:opacity .2s;pointer-events:none}
+#list.scrolled .top::before{opacity:1}
+#ttl{position:absolute;left:0;right:0;top:var(--st);height:44px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:17px;opacity:0;transition:opacity .2s;pointer-events:none}
+#list.scrolled #ttl{opacity:1}
+#scr{flex:1;overflow-y:auto;padding-top:calc(var(--st) + 44px);-webkit-overflow-scrolling:touch}
+#rows{flex:none;overflow:visible}
+.app.srch #scr{display:none}
+#chat{padding-top:0}
+#chat .hd{position:relative;z-index:3;pointer-events:none;margin-bottom:calc(-1*var(--hdh,0px));padding-top:calc(var(--st) + 12px)}
+#chat .hd>*{pointer-events:auto}
+#chat .hd::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(100% + 26px);z-index:-1;background:linear-gradient(to bottom,rgba(var(--bgrgb),.96) 0,rgba(var(--bgrgb),.78) 60%,rgba(var(--bgrgb),0));-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent);pointer-events:none}
+#log{-webkit-mask-image:none;mask-image:none;padding-top:calc(var(--hdh,0px) + 6px)}
+@media (max-width:599px){#chat .hd{padding-top:var(--st)}}
+/* тонкий боковой индикатор прокрутки как в iOS */
+#scr,#log{scrollbar-width:none}
+#scr::-webkit-scrollbar,#log::-webkit-scrollbar{display:none;width:0;height:0}
+:root{--sbc:rgba(190,190,196,.62)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--sbc:rgba(60,60,67,.42)}}
+:root[data-theme="light"]{--sbc:rgba(60,60,67,.42)}
+.sbar{position:absolute;right:2px;width:3px;border-radius:2px;background:var(--sbc);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:6}
+.sbar.on{opacity:1;transition:opacity .08s ease}
+.field .inp{flex:1;min-width:0;display:block;outline:0;border:0;background:none;color:var(--txt);font-size:17px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:clip;-webkit-user-select:text;user-select:text;caret-color:#0a84ff;-webkit-tap-highlight-color:transparent;padding:0}
+.field .inp:empty::before{content:attr(data-ph);color:var(--phc,#777779);pointer-events:none}
+.app.kb .bar{padding-bottom:16px}
+.bar .circle,.field{border-width:.56px !important}
+#plus svg{width:22.6px !important;height:22.6px !important}
+.field .inp{position:relative;top:1.7px}
+.field{padding-left:15px !important}
+#plus svg path{stroke-width:1.9 !important}
+.act svg *{stroke-width:1.25}
 </style>
 </head>
 <body>
@@ -348,9 +385,9 @@ html,body{overflow-x:hidden}
  <div class="isl"></div>
  <div class="sb"><span id="clk"></span><i>58</i></div>
  <div class="screen" id="list">
-  <div class="top"><button class="pillbtn" id="edit">Править</button><button class="circle" data-ic="filter" aria-label="Фильтр"></button></div>
-  <h1>Сообщения</h1>
-  <div id="rows"></div>
+  <div class="top"><button class="pillbtn" id="edit">Править</button><span id="ttl">Сообщения</span><button class="circle" data-ic="filter" aria-label="Фильтр"></button></div>
+  <div id="scr"><h1>Сообщения</h1>
+  <div id="rows"></div></div>
   <div id="sgrid"></div>
   <div class="bottom">
    <label class="search"><span data-ic="search"></span><input id="q" placeholder="Поиск"><span data-ic="mic"></span></label>
@@ -372,7 +409,7 @@ html,body{overflow-x:hidden}
   <div id="log"></div>
   <div class="bar">
    <button class="circle" id="plus" data-ic="plus" aria-label="Команды"></button>
-   <div class="field"><input id="box" placeholder="Текстовое сообщение • SMS" autocomplete="off" autocorrect="off" enterkeyhint="send"><button class="act" id="act" aria-label="Отправить"></button></div>
+   <div class="field"><div id="box" class="inp" contenteditable="true" role="textbox" data-ph="Текстовое сообщение • SMS" enterkeyhint="enter" spellcheck="false"></div><button class="act" id="act" aria-label="Отправить"></button></div>
   </div>
  </div>
  <div class="screen" id="info">
@@ -407,7 +444,7 @@ html,body{overflow-x:hidden}
  <div class="shade" id="shade"></div><div class="sheet" id="sheet"></div>
 </div>
 <script>
-var $=function(i){return document.getElementById(i)};
+var $=function(i){return document.getElementById(i)}; (function(){var b=$('box');  Object.defineProperty(b,'value',{get:function(){return b.textContent},set:function(v){b.textContent=v}});  b.addEventListener('paste',function(e){e.preventDefault();var t=((e.clipboardData||window.clipboardData).getData('text')||'').replace(/\s+/g,' ');document.execCommand('insertText',false,t)});  b.addEventListener('keydown',function(e){if(e.key==='Enter')e.preventDefault()}); })(); 
 var person='<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><ellipse cx="12" cy="21" rx="9" ry="6"/></svg>';
 var P={
  search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
@@ -429,6 +466,7 @@ var P={
  bub:'<path d="M12 4C7 4 3.5 7.1 3.5 11c0 2 .9 3.7 2.4 5L4.5 20l4-1.6c1 .4 2.3.6 3.5.6 5 0 8.5-3.1 8.5-7S17 4 12 4z"/>',
  adduser:'<circle cx="10" cy="8" r="3.8"/><path d="M3.5 20c0-3.8 3-6 6.5-6 1.2 0 2.3.3 3.2.8M18 14v6M15 17h6"/>',
  copy:'<path d="M14 3H8a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V8z"/><path d="M14 3v5h4M4 8v11a2 2 0 002 2h8"/>',
+ mic2:'<rect x="8.55" y="2.6" width="6.9" height="11.9" rx="3.45" stroke-width="1.5"/><path d="M6.2 10.2a5.8 5.8 0 0011.6 0M12 16v3.6M7.6 20.2h8.8" stroke-width="1.5"/>',
  pencil:'<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19z"/>'
 };
 function I(n,s){s=s||22;return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+P[n]+'</svg>'}
@@ -443,13 +481,59 @@ document.querySelectorAll('[data-ic]').forEach(function(e){
 });
 var hm=function(){return new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})};
 function clock(){$('clk').textContent=hm()}clock();setInterval(clock,20000);
+var T=function(d,h,m){var x=new Date();x.setDate(x.getDate()-d);x.setHours(h,m,0,0);return x.getTime()};
+function S(n,bd,m,name){return {n:n,name:name||'',bd:bd,m:m,d:m.length?1:0,t0:Date.now()}}
 var contacts=[
- {n:'7000',m:[]},
- {n:'7001',m:[]}
+ S('Orange','Р',[
+  ['in','Ai activat optiunea 5 GB / 10 zile, din care 2.74 GB limita in roaming UE. Detalii pe www.omd.md/eur',T(8,16,58)],
+  ['in','Pentru tarife mai bune in roaming, reincarca contul cu cardul bancar pe www.omd.md/plata si activeaza Optiuni Roaming folosind *100#OK.',T(8,17,20),'Номер изменен на Основной'],
+  ['in','Soldul contului dvs Orange depaseste suma de -150 lei. Va rugam sa reincarcati contul pentru a pastra accesul la servicii. Achitati comod pe www.omd.md/plata',T(5,19,4),'Номер изменен на Рабочий'],
+  ['in','Azi e data de facturare, ati primit abonamentul si optiunile lunare. Suma spre achitare: 449.26 lei. Puteti achita pana la {u}02/11{/u} prin www.omd.md/plata',T(1,9,8)],
+  ['in','Ati primit 25 Puncte de Fidelitate. In total aveti 435 puncte, egale cu 435 minute nationale sau 435 lei reducere in magazinele Orange si pe www.omd.md/eshop',T(1,10,8)]
+ ]),
+ S('+373 (60) 680362','',[
+  ['in','Apple peach 10x\nBlackcurrant menthol 11x',T(3,14,20)]
+ ]),
+ S('+373 60 000 000','О',[
+  ['in','Etot abonent zvonil vam 1 raz 10/10 v 22:49. Orange',T(4,22,56)]
+ ],'Игорь'),
+ S('7000','Р',[
+  ['in','DEMO — BILET NEVALID\nBilet demonstrativ nr. DEMO-24887963\nData 09.10.2026\nValabilitate demonstrativa\nNumar de bord 2488',T(5,18,48)]
+ ]),
+ S('OrangeMD','Р',[
+  ['in','Bine ati venit in Romania.\nIn roaming UE/SEE, poti utiliza resursele incluse in abonament, conform detaliilor prezentate mai jos.\n\nResurse incluse si tarife (cu TVA):\n - 7.43 GB limita in Roaming UE/SEE\n - Apeluri catre Moldova si UE/SEE: din minute nationale incluse in abonament\n - Apeluri catre numere din afara UE/SEE: 15 lei/min\n - SMS: din minute nationale incluse in abonament (1:1)\n - Apeluri primite: gratuit\n\nTarife dupa consumarea resurselor din abonament:\n - Internet: 0.02 lei/MB\n - Apeluri catre Moldova si UE/SEE: 1.9 lei/min\n - SMS: 0.60lei/SMS\nInfo numere premium taxate suplimentar si aplicatii disponibile in tarile UE/SEE care iti pot trimite mesaje cu avertismente publice: www.omd.md/UE\nNumar urgenta: 112 (gratuit)\nVerificarea contului: aplicatia My Orange www.omd.md/myo, asistentul virtual www.omd.md/Django sau *133#.\nApel direct la serviciul clienti Orange: +37369197777',T(8,11,10),'Номер изменен на Рабочий']
+ ]),
+ S('WizzAir','Р',[
+  ['in','Reis 3936 MXP-RMO zaderzhan. Novoye vremya vyleta: 13:20, 10/06/26\nVremya okonchaniya registratii ostaetsya prezhnim. Detali otpravleny na vash e-mail.\nWIZZ',T(8,11,50)]
+ ]),
+ S('BERSHKA','Р',[
+  ['in','Ecco lo scontrino: https://itx.to/7CvslrtMXgc',T(14,13,24)]
+ ]),
+ S('+373 60 000 001','Р',[
+  ['in','Etot abonent zvonil vam 1 raz 28/09 v 19:42. Orange',T(16,19,50)]
+ ],'Алексей Петренко'),
+ S('1111','',[
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 60 lei. Aveti in cont 119.63 lei. Perioada activa - pina la 29/11/25. Info *133#OK sau pe my.orange.md',T(47,14,10)],
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 45 lei. Aveti in cont 77.19 lei. Perioada activa - pina la 0. Info *133#OK sau pe my.orange.md',T(270,13,31),null,1],
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 45 lei. Aveti in cont 122.19 lei. Perioada activa - pina la 0. Info *133#OK sau pe my.orange.md',T(270,13,32)],
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 300.70 lei. Va rugam sa verificati starea contului la *133#OK sau pe my.orange.md',T(102,10,42),'Номер изменен на Рабочий'],
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 281.30 lei. Va rugam sa verificati starea contului la *133#OK sau pe my.orange.md',T(72,11,51)],
+  ['in','Numarul dvs. a fost reincarcat cu succes cu 271.60 lei. Va rugam sa verificati starea contului la *133#OK sau pe my.orange.md',T(41,8,4)]
+ ]),
+ S('7001','',[])
 ];
-contacts.forEach(function(c){c.t=hm()});
+function fmtHdr(ts){var d=new Date(ts),n=new Date(),k=Math.round((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/864e5),t=d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}),l;
+ if(k<=0)l='Сегодня';else if(k===1)l='Вчера';else if(k<7)l=d.toLocaleDateString('ru-RU',{weekday:'long'});
+ else if(d.getFullYear()!==n.getFullYear())l=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric'})+',';
+ else l=d.toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'}).replace(/^./,function(c){return c.toUpperCase()})+',';
+ return '<b>'+l+'</b> '+t}
+function fmtList(ts){if(!ts)return '';var d=new Date(ts),n=new Date(),k=Math.round((new Date(n.getFullYear(),n.getMonth(),n.getDate())-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/864e5);
+ if(k<=0)return d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});if(k===1)return 'Вчера';if(k<7)return d.toLocaleDateString('ru-RU',{weekday:'long'});return d.toLocaleDateString('ru-RU')}
+function lt(c){return fmtList(c.m.length?(c.m[c.m.length-1][2]||c.t0):c.t0)}
+function bump(c){var i=contacts.indexOf(c);if(i>0){contacts.splice(i,1);contacts.unshift(c)}}
+function needHdr(a,b){return !!b&&(!a||Math.abs(b-a)>=36e5||new Date(a).toDateString()!==new Date(b).toDateString())}
 var cur=null,userName='Вы';
-var KEY='sms_state_v2';
+var KEY='sms_state_v4';
 function save(){try{localStorage.setItem(KEY,JSON.stringify({u:userName,c:contacts.map(function(c){var o={};for(var k in c)if(k!=='sel')o[k]=c[k];return o})}))}catch(e){}}
 try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv&&sv.c&&sv.c.length&&sv.c.every(function(c){return c&&c.n}))
 {contacts=sv.c;contacts.forEach(function(c){c.m=c.m||[];c.t=c.t||hm()});if(sv.u)userName=sv.u}}catch(e){}
@@ -463,7 +547,7 @@ var cmds={
  '/clear':function(){cur.m=[];cur.d=0;draw();return null}
 };
 function esc(s){return s.replace(/[&<>]/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[x]})}
-function link(s){return esc(s).replace(/(https?:\/\/[^\s]+|www\.[^\s]+)|(\d{7,})|(\b\d{1,2}:\d{2}\b)/g,function(m,u,n,t){if(t)return '<span class="tm">'+t+'</span>';return u?'<a href="#" onclick="return false">'+u+'</a>':'<a class="ph" href="#" data-n="'+n+'">'+n+'</a>'})}
+function link(s){return esc(s).replace(/(https?:\/\/[^\s]+|www\.[^\s]+)|(\+?\d{7,})|(\b\d{1,2}:\d{2}\b(?![.,:\d]))|\{u\}(.*?)\{\/u\}/g,function(m,u,n,t,w){if(t)return '<span class="tm">'+t+'</span>';if(w)return '<span class="tm">'+w+'</span>';if(u){var e=u.match(/[.,;:)]+$/);e=e?e[0]:'';return '<a href="#" onclick="return false">'+u.slice(0,u.length-e.length)+'</a>'+e}return '<a class="ph" href="#" data-n="'+n+'">'+n+'</a>'})}
 function renderList(){
  var q=$('q').value.toLowerCase(),h='',pins='';
  contacts.forEach(function(c,i){
@@ -471,7 +555,7 @@ function renderList(){
   if(c.pin&&!q){pins+='<div class="pin" data-i="'+i+'"><div class="av">'+avh(c)+'</div><span>'+esc(nm(c))+'</span></div>';return}
   var last=c.m.length?c.m[c.m.length-1][1]:'';
   var ck=selMode?'<div class="ck'+(c.sel?' on':'')+'"></div>':'';
-  h+='<div class="row" data-i="'+i+'">'+ck+'<div class="av">'+avh(c)+'</div><div class="b"><div class="r1"><span class="nm">'+esc(nm(c))+'</span><span class="dt">'+(c.mute?I('bell',14):'')+c.t+I('chev',14)+'</span></div><div class="pv">'+esc(last)+'</div></div></div>';
+  h+='<div class="row" data-i="'+i+'">'+ck+'<div class="av">'+avh(c)+'</div><div class="b"><div class="r1"><span class="nm">'+esc(nm(c))+'</span><span class="dt">'+(c.mute?I('bell',14):'')+lt(c)+I('chev',14)+'</span></div><div class="pv">'+(c.bd&&last?'<span class="bd'+(c.bd==='О'?' o':'')+'">'+c.bd+'</span>':'')+esc(last)+'</div></div></div>';
  });
  if(pins)h='<div class="pins">'+pins+'</div>'+h;
  if(!h&&q)h='<div style="text-align:center;color:var(--mute);padding:40px 16px">Ничего не найдено</div>';
@@ -494,15 +578,19 @@ $('msel').onclick=function(){closeMenu();setMode('sel')};
 $('mpin').onclick=function(){closeMenu();setMode('pin')};
 $('seldel').onclick=function(){contacts=contacts.filter(function(c){return !c.sel});setMode(null)};
 function draw(){
- var m=cur.m,h=m.length?'<div class="day">Текстовое сообщение • SMS<br>'+dl(cur)+'</div>':'';
+ var m=cur.m,h='',pt=0;
  m.forEach(function(x,i){
-  var t=(i===m.length-1||m[i+1][0]!==x[0])?' tail':'';
+  var ts=x[2]||0,nx=m[i+1],t=(!nx||nx[0]!==x[0]||x[4]||nx[3]||needHdr(ts,nx[2]))?' tail':'';
+  if(i===0)h+='<div class="day">Текстовое сообщение • SMS<br>'+(ts?fmtHdr(ts):dl(cur))+'</div>';
+  else if(x[3]||needHdr(pt,ts))h+='<div class="day">'+fmtHdr(ts)+'</div>';
+  if(x[3])h+='<div class="day sy">'+esc(x[3])+'</div>';
   h+='<div class="m '+x[0]+t+'">'+link(x[1])+'</div>';
+  pt=ts||pt;
  });
  $('log').innerHTML=h;$('log').scrollTop=1e9;save();
 }
-function openChat(i){cur=contacts[i];$('cname').innerHTML=esc(nm(cur))+I('chev',13);$('cav').innerHTML=avh(cur);draw();$('app').classList.add('open')}
-function push(w,t){if(!cur.d)cur.d=Date.now();cur.m.push([w,t]);cur.t=hm();draw()}
+function openChat(i){cur=contacts[i];$('cname').innerHTML=esc(nm(cur))+I('chev',13);$('cav').innerHTML=avh(cur);draw();$('app').classList.add('open');setHdh();setTimeout(setHdh,60)}
+function push(w,t){if(!cur.d)cur.d=Date.now();cur.m.push([w,t,Date.now()]);cur.t=hm();bump(cur);draw()}
 function send(t){
  t=t.trim();if(!t)return;
  var c=cur;push('out',t);
@@ -518,7 +606,6 @@ function send(t){
     var n=t+('000'+Math.floor(Math.random()*10000)).slice(-4);
     var d=new Date();
     var z=function(v){return ('0'+v).slice(-2)};
-
 var demo=[
   'Bilet electronic nr. '+n,
   ' Data '+z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' ora '+z(d.getHours())+':'+z(d.getMinutes()),
@@ -526,9 +613,8 @@ var demo=[
   ' Pret 7 MDL',
   ' Numar de bord '+t
 ].join('\n');
-
     if(!c.d)c.d=Date.now();
-    c.m.push(['in',demo]);
+    c.m.push(['in',demo,Date.now()]);bump(c);
     c.t=hm();
     if(cur===c)draw();else renderList();
    },1800);
@@ -536,7 +622,7 @@ var demo=[
   if(r!==null&&cur===c&&!c.blocked)push('in',r);
  },450);
 }
-function upd(){var has=$('box').value.length>0;$('act').innerHTML=I(has?'send':'mic',has?20:22);$('act').className='act'+(has?' send':'')}
+function upd(){if(!$('box').textContent&&$('box').innerHTML)$('box').innerHTML='';var has=$('box').value.length>0;$('act').innerHTML=I(has?'send':'mic2',has?20:23);$('act').className='act'+(has?' send':'')}
 function go(){send($('box').value);$('box').value='';upd()}
 $('rows').onclick=function(e){
  var el=e.target.closest('.pin')||e.target.closest('.row');if(!el)return;
@@ -576,7 +662,7 @@ window.addEventListener('resize',fit);
 ['focus','blur'].forEach(function(ev){$('box').addEventListener(ev,function(){[0,60,150,300,500,800].forEach(function(d){setTimeout(fit,d)})})});
 fit();
 })();
-$('plus').onclick=function(){$('box').value='/';$('box').focus();upd()};
+$('plus').onclick=function(){var b=$('box');b.value='/';b.focus();var r=document.createRange();r.selectNodeContents(b);r.collapse(false);var q=getSelection();q.removeAllRanges();q.addRange(r);upd()};
 $('box').oninput=upd;
 $('box').onkeydown=function(e){if(e.key==='Enter')go()};
 $('act').onclick=function(){if($('box').value)go()};
@@ -681,6 +767,21 @@ $('pop').onclick=function(){hidePop();openNew()};
 $('shc1').onclick=function(){sheet('Контакт «'+nm(cur)+'» сохранён.',[['OK']],'',function(){})};
 window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
 upd();renderList();
+function setHdh(){var h=document.querySelector('#chat .hd');if(h)$('chat').style.setProperty('--hdh',h.offsetHeight+'px')}
+$('scr').addEventListener('scroll',function(){$('list').classList.toggle('scrolled',this.scrollTop>36)});
+window.addEventListener('resize',setHdh);setHdh();
+function sbar(sc,inset){var b=document.createElement('div'),tm,y=null,ty=0,raf=0;b.className='sbar';b.style.top='0';sc.parentNode.appendChild(b);
+ function step(){y+=(ty-y)*.28;if(Math.abs(ty-y)<.3){y=ty;raf=0}else raf=requestAnimationFrame(step);b.style.transform='translate3d(0,'+y+'px,0)'}
+ function upd(){var pt=parseFloat(getComputedStyle(sc).paddingTop)||0,h=sc.clientHeight,H=sc.scrollHeight,tr=h-pt-inset;
+  if(H<=h+2||tr<40){b.style.display='none';return}
+  b.style.display='block';var th=Math.min(60,Math.max(34,tr*tr/(H-pt)));
+  ty=sc.offsetTop+pt+Math.max(0,Math.min(1,sc.scrollTop/(H-h)))*(tr-th);
+  b.style.height=th+'px';if(y===null)y=ty;if(!raf)raf=requestAnimationFrame(step);
+  b.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){b.classList.remove('on')},900)}
+ sc.addEventListener('scroll',upd)}
+sbar($('scr'),96);sbar($('log'),8);
+setTimeout(setHdh,300);
+setInterval(function(){if(!$('app').classList.contains('open')&&!$('app').classList.contains('srch'))renderList()},30000);
 </script>
 </body>
 </html>
